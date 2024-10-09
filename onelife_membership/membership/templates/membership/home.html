@@ -1,0 +1,11 @@
+{% extends "membership/base.html" %}
+{% block content %}
+<div class="text-center">
+    <h1 class="text-4xl font-bold mb-4">Welcome to OneLife Membership Program</h1>
+    <p class="text-xl mb-8">Join our program to enjoy exclusive benefits and rewards!</p>
+    <div>
+        <a href="{% url 'register' %}" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mr-4">Register Now</a>
+        <a href="{% url 'login' %}" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">Login</a>
+    </div>
+</div>
+{% endblock %}

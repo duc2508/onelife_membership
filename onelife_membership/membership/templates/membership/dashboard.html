@@ -1,0 +1,73 @@
+{% extends "membership/base.html" %}
+
+{% block title %}Trang chủ  - onelife membership{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <div class="bg-white shadow rounded-lg p-6 mb-6">
+        <h2 class="text-2xl font-bold mb-4">Welcome, {{ user.username }}</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="bg-blue-100 p-4 rounded">
+                <h3 class="font-bold text-lg mb-2">Membership Level</h3>
+                <p class="text-xl">{{ membership_user.membership_level }}</p>
+            </div>
+            <div class="bg-green-100 p-4 rounded">
+                <h3 class="font-bold text-lg mb-2">Points Balance</h3>
+                <p class="text-xl">{{ membership_user.points }}</p>
+            </div>
+            <div class="bg-yellow-100 p-4 rounded">
+                <h3 class="font-bold text-lg mb-2">Total Spend</h3>
+                <p class="text-xl">{{ membership_user.total_spend }} VND</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white shadow rounded-lg p-6 mb-6">
+        <h3 class="text-xl font-bold mb-4">Available Vouchers</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {% for voucher in vouchers %}
+            <div class="border p-4 rounded">
+                <p class="font-bold">{{ voucher.value }} VND</p>
+                <p>Expires: {{ voucher.expiry_date }}</p>
+                <form method="POST" action="{% url 'use_voucher' voucher.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="mt-2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                        Use Voucher
+                    </button>
+                </form>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-white shadow rounded-lg p-6">
+            <h3 class="text-xl font-bold mb-4">Accumulate Points</h3>
+            <form method="POST" action="{% url 'accumulate_points' %}">
+                {% csrf_token %}
+                <div class="mb-4">
+                    <label for="amount" class="block text-gray-700 text-sm font-bold mb-2">Purchase Amount:</label>
+                    <input type="number" name="amount" id="amount" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                </div>
+                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    Add Points
+                </button>
+            </form>
+        </div>
+
+        <div class="bg-white shadow rounded-lg p-6">
+            <h3 class="text-xl font-bold mb-4">Redeem Voucher</h3>
+            <form method="POST" action="{% url 'redeem_voucher' %}">
+                {% csrf_token %}
+                <div class="mb-4">
+                    <label for="voucher_value" class="block text-gray-700 text-sm font-bold mb-2">Voucher Value:</label>
+                    <input type="number" name="voucher_value" id="voucher_value" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                </div>
+                <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                    Redeem
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

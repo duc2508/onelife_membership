@@ -1,0 +1,61 @@
+{% extends "membership/base.html" %}
+
+{% block content %}
+<h1>Quét Mã QR</h1>
+<div id="reader" style="width: 600px; height: 400px; border: 1px solid black;"></div>
+<p id="result"></p>
+
+<script>
+    // Hàm kiểm tra và tải thư viện html5-qrcode
+    function loadScript(url, callback) {
+        const script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src = url;
+        script.onload = function() {
+            console.log("Thư viện đã được tải thành công.");
+            callback(); // Thực hiện quét sau khi tải thư viện thành công
+        };
+        script.onerror = function() {
+            console.error("Không thể tải thư viện từ URL:", url);
+            document.getElementById("result").innerText = "Không thể tải thư viện để quét mã QR. Vui lòng kiểm tra kết nối mạng.";
+        };
+        document.head.appendChild(script);
+    }
+
+    // Chờ cho DOM tải hoàn tất
+    document.addEventListener("DOMContentLoaded", function() {
+        // Tải thư viện html5-qrcode từ unpkg
+        loadScript("https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js", function() {
+            // Khởi tạo Html5Qrcode sau khi thư viện đã được tải
+            const html5QrCode = new Html5Qrcode("reader");
+
+            // Hàm xử lý khi quét thành công
+            function onScanSuccess(qrCodeMessage) {
+                document.getElementById("result").innerText = "Mã QR đã quét: " + qrCodeMessage;
+
+                // Dừng quét mã sau khi quét thành công
+                html5QrCode.stop().then(() => {
+                    console.log("Đã dừng quét mã.");
+                }).catch(err => {
+                    console.error("Lỗi khi dừng quét mã:", err);
+                });
+            }
+
+            // Hàm xử lý khi có lỗi quét
+            function onScanError(errorMessage) {
+                console.warn("Lỗi quét mã QR:", errorMessage);
+            }
+
+            // Bắt đầu quét mã QR bằng camera trước
+            html5QrCode.start(
+                { facingMode: "user" }, // Sử dụng camera phía trước
+                { fps: 10, qrbox: { width: 250, height: 250 } }, 
+                onScanSuccess, 
+                onScanError
+            ).catch(err => {
+                console.error("Lỗi khởi động camera:", err);
+            });
+        });
+    });
+</script>
+{% endblock %}

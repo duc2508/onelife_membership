@@ -1,0 +1,35 @@
+<!-- membership/templates/membership/scan_qr.html -->
+{% extends "membership/base.html" %}
+
+{% block content %}
+<h1>Quét Mã QR</h1>
+<div id="reader" style="width: 600px;"></div>
+<p id="result" style="margin-top: 20px; font-weight: bold;"></p>
+
+<script>
+    function onScanSuccess(qrCodeMessage) {
+        // Hiển thị thông điệp quét được
+        document.getElementById("result").innerText = "Đã quét: " + qrCodeMessage;
+
+        // Thực hiện một hành động nếu cần, như redirect hoặc lưu vào cơ sở dữ liệu
+        // Ví dụ: window.location.href = "/some_url/" + qrCodeMessage;
+    }
+
+    function onScanError(errorMessage) {
+        // Xử lý lỗi nếu cần
+    }
+
+    const html5QrCode = new Html5Qrcode("reader");
+    html5QrCode.start(
+        { facingMode: "environment" }, // Sử dụng camera phía sau (nếu có)
+        {
+            fps: 10,    // Khung hình mỗi giây
+            qrbox: 250  // Kích thước hộp quét
+        },
+        onScanSuccess,
+        onScanError)
+    .catch(err => {
+        console.error("Lỗi khi khởi động camera: ", err);
+    });
+</script>
+{% endblock %}

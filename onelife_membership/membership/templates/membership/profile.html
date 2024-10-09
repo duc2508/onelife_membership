@@ -1,0 +1,21 @@
+<!-- membership/templates/membership/profile.html -->
+{% extends "membership/base.html" %}
+
+{% block content %}
+<h1>Profile Page</h1>
+<p>Welcome, {{ user.username }}</p>
+
+<a href="{% url 'scan_qr' %}" class="btn btn-primary">Quét Mã QR</a>
+<!-- Hiển thị thông tin khác của người dùng -->
+<div class="bg-white shadow rounded-lg p-6">
+    <h2 class="text-xl font-bold mb-4">Thông tin người dùng</h2>
+    <ul>
+        <li><strong>Email:</strong> {{ user.email }}</li>
+        <li><strong>Phone:</strong> {{ membership_user.phone }}</li>  <!-- Giả sử bạn đã có trường phone trong model MembershipUser -->
+        <li><strong>Ngày tham gia:</strong> {{ user.date_joined|date:"d/m/Y" }}</li>
+        <li><strong>Điểm tích lũy:</strong> {{ membership_user.points }}</li>
+        <li><strong>Thành viên cấp:</strong> {{ membership_user.membership_level }}</li>
+    </ul>
+</div>
+
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "membership/base.html" %}
+
+{% block title %}Quét mã  - onelife membership{% endblock %}
+
+{% block content %}
+<div class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
+    <div class="p-8 text-center">
+        <h2 class="text-2xl font-bold mb-4">Your Membership QR Code</h2>
+        <div class="mb-4">
+            <img src="data:image/png;base64,{{ qr_image }}" alt="Membership QR Code" class="mx-auto">
+        </div>
+        <p class="mb-4">Use this QR code at our stores to quickly access your membership benefits!</p>
+        <a href="{% url 'dashboard' %}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            Go to Dashboard
+        </a>
+    </div>
+</div>
+{% endblock %}
