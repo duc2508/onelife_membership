@@ -1,0 +1,12 @@
+{% extends "membership/base.html" %}
+
+{% block content %}
+<div class="text-center">
+    <h1 class="text-4xl font-bold mb-4">Chào Mừng Bạn Đến Với Chương Trình Thành Viên OneLife</h1>
+    <p class="text-xl mb-8">Tham gia chương trình của chúng tôi để tận hưởng những lợi ích và phần thưởng độc quyền!</p>
+    <div>
+        <a href="{% url 'register' %}" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mr-4">Đăng Ký Ngay</a>
+        <a href="{% url 'login' %}" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">Đăng Nhập</a>
+    </div>
+</div>
+{% endblock %}
